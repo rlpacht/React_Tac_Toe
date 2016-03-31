@@ -12,7 +12,8 @@ var Game = React.createClass({
     const boardSize = 3;
     return {
       game: new TicTacToe.Game(boardSize),
-      boardSize: boardSize
+      boardSize: boardSize,
+      modalShouldClose: false
     };
   },
 
@@ -24,10 +25,9 @@ var Game = React.createClass({
 
   componentDidUpdate() {
     const { game, boardSize } = this.state;
-    if (game.won()) {
-      // alert("You Won!");
+    if (game.won() && this.state.modalShouldClose) {
       const newGame = new TicTacToe.Game(boardSize);
-      this.setState({ game: newGame });  
+      this.setState({ game: newGame, modalShouldClose: false });  
     }
   },
 
@@ -60,31 +60,37 @@ var Game = React.createClass({
   },
 
   handleModalClose() {
+    this.setState({modalShouldClose: true});
     return false;
+    this.setState({ game: this.state.game });
   },
   shouldModalOpen() {
+    // if (this.state.game.won()) {
+    //   this.setState({modalShouldOpen: true})
+    // }
     return this.state.game.won();
   },
 
   render() {
     const { boardSize, game } = this.state;
+    const lastPlayer = game.nonCurrentPlayer();
     const action = [
       <FlatButton
         label="Close"
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.handleModalClose()}
+        onClick={this.handleModalClose}
       />]
     return (
       <div>
         <Dialog
-          title="Dialog With Actions"
+          title="Congrats!"
           actions={action}
           modal={false}
           open={this.shouldModalOpen()}
           onRequestClose={this.handleModalClose}
         >
-          The actions in this window were passed in as an array of React objects.
+          You Won!
         </Dialog>
         <div className="board-size">
           <h4> Choose Board Size </h4>
