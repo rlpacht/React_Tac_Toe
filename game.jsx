@@ -43,13 +43,18 @@ var Game = React.createClass({
     });
   },
 
+  undo() {
+    this.state.game.undo();
+    this.setState({ game:  this.state.game});
+  },
+
   render() {
     const { boardSize, game } = this.state;
 
     return (
       <div>
         <div className="board-size">
-          <h3> Choose Board Size </h3>
+          <h4> Choose Board Size </h4>
           <input 
             type="number" 
             value={boardSize} 
@@ -57,6 +62,7 @@ var Game = React.createClass({
             onChange={this.controlBoardSizeInput} 
           />
         </div>
+        <button className="btn undo" onClick={this.undo}>Undo</button>
         <Board
           board={game.board}
           updateGame={this.updateGame}

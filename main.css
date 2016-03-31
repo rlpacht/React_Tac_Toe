@@ -5,19 +5,27 @@ html {
   text-align: center;
   font-size: 330%;
   color: teal;
+  margin: 0;
+  margin-top: .5%; 
 }
 
 .board-size {
   text-align: center;
-  font-size: 130%;
-  /*color: teal;*/
+  font-size: 120%;
 }
 input {
   font-size: 14px;
+  text-align: center;
+  border: solid black;
+  max-width: 40%;
+}
+
+.undo {
+  margin-left: 10%;
 }
 
 .board {
-  overflow-x: scroll;
+  overflow: auto;
   white-space: nowrap;
   position: relative;
   /*left: 25%;*/

@@ -90,6 +90,10 @@
 	      boardSize: parseInt(event.target.value)
 	    });
 	  },
+	  undo: function undo() {
+	    this.state.game.undo();
+	    this.setState({ game: this.state.game });
+	  },
 	  render: function render() {
 	    var _state2 = this.state;
 	    var boardSize = _state2.boardSize;
@@ -103,7 +107,7 @@
 	        'div',
 	        { className: 'board-size' },
 	        React.createElement(
-	          'h3',
+	          'h4',
 	          null,
 	          ' Choose Board Size '
 	        ),
@@ -113,6 +117,11 @@
 	          onBlur: this.updateBoardSize,
 	          onChange: this.controlBoardSizeInput
 	        })
+	      ),
+	      React.createElement(
+	        'button',
+	        { className: 'btn undo', onClick: this.undo },
+	        'Undo'
 	      ),
 	      React.createElement(Board, {
 	        board: game.board,
@@ -19867,6 +19876,16 @@
 	    value: function updateTile(tile) {
 	      if (tile.tileIsEmpty()) {
 	        tile.updateTile(this.currentPlayer);
+	        this.switchPlayer();
+	      }
+	      this.lastTileChanged = tile;
+	    }
+	  }, {
+	    key: "undo",
+	    value: function undo() {
+	      if (this.lastTileChanged.tileIsEmpty() === false) {
+	        debugger;
+	        this.lastTileChanged.tileState = null;
 	        this.switchPlayer();
 	      }
 	    }

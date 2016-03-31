@@ -25,6 +25,16 @@ class Game {
       tile.updateTile(this.currentPlayer);
       this.switchPlayer();
     }
+    this.lastTileChanged = tile
+  }
+
+  undo() {
+    if (this.lastTileChanged.tileIsEmpty() === false) {
+      debugger
+      this.lastTileChanged.tileState = null;
+      this.switchPlayer();  
+    } 
+    
   }
 
   won() {
