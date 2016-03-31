@@ -1,0 +1,42 @@
+html {
+  font-family: 'Poiret One', cursive;
+}
+.title {
+  text-align: center;
+  font-size: 330%;
+  color: teal;
+}
+
+.board-size {
+  text-align: center;
+  font-size: 130%;
+  /*color: teal;*/
+}
+input {
+  font-size: 14px;
+}
+
+.board {
+  position: relative;
+  /*left: 25%;*/
+  top: 30px;
+  margin: auto 0;
+  text-align: center;
+}
+
+.row {
+}
+.box {
+  margin: .5%;
+  height: 150px;
+  width: 150px;
+  border: 3px solid black;
+  display: inline-block;
+  text-align: center;
+  line-height: 9.5em;
+  color: teal;
+  /*border-color: teal;*/
+  font-weight: bold;
+  border-radius: 15px;
+
+}
