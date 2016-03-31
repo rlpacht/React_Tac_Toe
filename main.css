@@ -13,11 +13,13 @@ html {
   text-align: center;
   font-size: 120%;
 }
-input {
+.board-size-input {
   font-size: 14px;
   text-align: center;
-  border: solid black;
-  max-width: 40%;
+  /*border-left: 1px solid #9e9e9e !important;
+  border-right: 1px solid #9e9e9e !important;*/
+  border-top: 1px solid #9e9e9e !important;
+  max-width: 35%;
 }
 
 .undo {

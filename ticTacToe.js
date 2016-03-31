@@ -30,9 +30,9 @@ class Game {
 
   undo() {
     if (this.lastTileChanged.tileIsEmpty() === false) {
-      debugger
       this.lastTileChanged.tileState = null;
       this.switchPlayer();  
+      this.lastTileChanged = null;
     } 
     
   }

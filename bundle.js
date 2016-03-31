@@ -94,6 +94,14 @@
 	    this.state.game.undo();
 	    this.setState({ game: this.state.game });
 	  },
+	  undoButtonClasses: function undoButtonClasses() {
+	    var game = this.state.game;
+	    if (game.lastTileChanged) {
+	      return "btn undo";
+	    } else {
+	      return "btn disabled undo";
+	    }
+	  },
 	  render: function render() {
 	    var _state2 = this.state;
 	    var boardSize = _state2.boardSize;
@@ -113,6 +121,7 @@
 	        ),
 	        React.createElement('input', {
 	          type: 'number',
+	          className: 'board-size-input',
 	          value: boardSize,
 	          onBlur: this.updateBoardSize,
 	          onChange: this.controlBoardSizeInput
@@ -120,7 +129,7 @@
 	      ),
 	      React.createElement(
 	        'button',
-	        { className: 'btn undo', onClick: this.undo },
+	        { className: this.undoButtonClasses(), onClick: this.undo },
 	        'Undo'
 	      ),
 	      React.createElement(Board, {
@@ -19884,9 +19893,9 @@
 	    key: "undo",
 	    value: function undo() {
 	      if (this.lastTileChanged.tileIsEmpty() === false) {
-	        debugger;
 	        this.lastTileChanged.tileState = null;
 	        this.switchPlayer();
+	        this.lastTileChanged = null;
 	      }
 	    }
 	  }, {
