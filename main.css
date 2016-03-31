@@ -17,6 +17,8 @@ input {
 }
 
 .board {
+  overflow-x: scroll;
+  white-space: nowrap;
   position: relative;
   /*left: 25%;*/
   top: 30px;
