@@ -6,6 +6,7 @@ class Game {
     this.playerO = new Player("O");
     this.currentPlayer = this.playerX;
     this.board = new Board(boardSize);
+    this.numTurnsPlayed = 0;
   }
 
   switchPlayer() {
@@ -24,6 +25,7 @@ class Game {
     if (tile.tileIsEmpty()) {
       tile.updateTile(this.currentPlayer);
       this.switchPlayer();
+      this.numTurnsPlayed++;
     }
     this.lastTileChanged = tile
   }
@@ -40,6 +42,11 @@ class Game {
   won() {
     // Pass in nonCurrentPlayer because player already switched in updateTile
     return this.board.winCondition(this.nonCurrentPlayer());
+  }
+
+  tie() {
+    var numTiles = this.board.boardSize * this.board.boardSize;
+    return this.numTurnsPlayed === numTiles;
   }
 }
 

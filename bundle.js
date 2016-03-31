@@ -84,7 +84,7 @@
 	    var game = _state.game;
 	    var boardSize = _state.boardSize;
 	
-	    if (game.won() && this.state.modalShouldClose) {
+	    if (game.won() && this.state.modalShouldClose || game.tie() && this.state.modalShouldClose) {
 	      var newGame = new TicTacToe.Game(boardSize);
 	      this.setState({ game: newGame, modalShouldClose: false });
 	    }
@@ -124,6 +124,9 @@
 	    // }
 	    return this.state.game.won();
 	  },
+	  tie: function tie() {
+	    return this.state.game.tie();
+	  },
 	  render: function render() {
 	    var _state2 = this.state;
 	    var boardSize = _state2.boardSize;
@@ -149,6 +152,17 @@
 	          onRequestClose: this.handleModalClose
 	        },
 	        'You Won!'
+	      ),
+	      React.createElement(
+	        _dialog2.default,
+	        {
+	          title: 'It\'s a Tie!',
+	          actions: action,
+	          modal: false,
+	          open: this.tie(),
+	          onRequestClose: this.handleModalClose
+	        },
+	        'Play Again!'
 	      ),
 	      React.createElement(
 	        'div',
@@ -30646,6 +30660,7 @@
 	    this.playerO = new Player("O");
 	    this.currentPlayer = this.playerX;
 	    this.board = new Board(boardSize);
+	    this.numTurnsPlayed = 0;
 	  }
 	
 	  _createClass(Game, [{
@@ -30668,6 +30683,7 @@
 	      if (tile.tileIsEmpty()) {
 	        tile.updateTile(this.currentPlayer);
 	        this.switchPlayer();
+	        this.numTurnsPlayed++;
 	      }
 	      this.lastTileChanged = tile;
 	    }
@@ -30685,6 +30701,12 @@
 	    value: function won() {
 	      // Pass in nonCurrentPlayer because player already switched in updateTile
 	      return this.board.winCondition(this.nonCurrentPlayer());
+	    }
+	  }, {
+	    key: "tie",
+	    value: function tie() {
+	      var numTiles = this.board.boardSize * this.board.boardSize;
+	      return this.numTurnsPlayed === numTiles;
 	    }
 	  }]);
 	

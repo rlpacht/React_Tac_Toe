@@ -25,7 +25,7 @@ var Game = React.createClass({
 
   componentDidUpdate() {
     const { game, boardSize } = this.state;
-    if (game.won() && this.state.modalShouldClose) {
+    if ((game.won() && this.state.modalShouldClose) || (game.tie() && this.state.modalShouldClose)) {
       const newGame = new TicTacToe.Game(boardSize);
       this.setState({ game: newGame, modalShouldClose: false });  
     }
@@ -71,6 +71,10 @@ var Game = React.createClass({
     return this.state.game.won();
   },
 
+  tie() {
+    return this.state.game.tie();
+  },
+
   render() {
     const { boardSize, game } = this.state;
     const lastPlayer = game.nonCurrentPlayer();
@@ -92,6 +96,16 @@ var Game = React.createClass({
         >
           You Won!
         </Dialog>
+        <Dialog
+          title="It's a Tie!"
+          actions={action}
+          modal={false}
+          open={this.tie()}
+          onRequestClose={this.handleModalClose}
+        >
+          Play Again!
+        </Dialog>
+
         <div className="board-size">
           <h4> Choose Board Size </h4>
           <input 
