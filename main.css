@@ -23,7 +23,7 @@ html {
 }
 
 .undo {
-  margin-left: 10%;
+  margin-left: 20%;
 }
 
 .current-player {
@@ -32,7 +32,6 @@ html {
   min-height: 36px;
   line-height: 36px;
   padding: .9%;
-  /*min-width: 30%;*/
   margin-left: 45%;
 }
 
@@ -40,7 +39,6 @@ html {
   overflow: auto;
   white-space: nowrap;
   position: relative;
-  /*left: 25%;*/
   top: 30px;
   margin: auto 0;
   text-align: center;
