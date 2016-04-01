@@ -28,6 +28,12 @@ html {
 
 .current-player {
   border: 3px solid teal;
+  display: inline;
+  min-height: 36px;
+  line-height: 36px;
+  padding: .9%;
+  /*min-width: 30%;*/
+  margin-left: 45%;
 }
 
 .board {

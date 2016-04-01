@@ -1,19 +1,21 @@
-var React  = require('react');
-var ReactDOM = require('react-dom');
-var Board = require('./board');
-var TicTacToe = require('./ticTacToe')
+const React  = require('react');
+const ReactDOM = require('react-dom');
+const Board = require('./board');
+const TicTacToe = require('./ticTacToe');
+
 import Dialog from 'material-ui/lib/dialog';
 import FlatButton from 'material-ui/lib/flat-button';
 
-var Game = React.createClass({
+const Game = React.createClass({
 
   getInitialState() {
-    // initialize board here
+    // initialize board
     const boardSize = 3;
     return {
       game: new TicTacToe.Game(boardSize),
       boardSize: boardSize,
-      modalShouldClose: false
+      gameWonModalOpen: false, 
+      gameTiedModalOpen: false,
     };
   },
 
@@ -24,15 +26,20 @@ var Game = React.createClass({
   },
 
   componentDidUpdate() {
-    const { game, boardSize, modalShouldClose } = this.state;
-    if ((game.won() && modalShouldClose) || (game.tie() && modalShouldClose)) {
-      const newGame = new TicTacToe.Game(boardSize);
-      this.setState({ game: newGame, modalShouldClose: false });  
+    const { boardSize, game } = this.state;
+
+    if (game.won()) {
+      let newGame = new TicTacToe.Game(boardSize);
+      this.setState({ game: newGame, gameWonModalOpen: true }); 
+    }
+    if (game.tie()) {
+      let newGame = new TicTacToe.Game(boardSize);
+      this.setState({ game: newGame, gameTiedModalOpen: true }); 
     }
   },
 
   updateBoardSize(event) {
-    const newBoardSize = parseInt(event.target.value) || 3;
+    const newBoardSize = Number(event.target.value) || 3;
     this.setState({
       boardSize: newBoardSize,
       game: new TicTacToe.Game(newBoardSize)
@@ -41,39 +48,38 @@ var Game = React.createClass({
 
   controlBoardSizeInput(event) {
     this.setState({
-      boardSize: parseInt(event.target.value)
+      boardSize: Number(event.target.value)
     });
   },
 
   undo() {
-    this.state.game.undo();
-    this.setState({ game:  this.state.game});
+    const { game } = this.state;
+    game.undo();
+    this.setState({ game });
   },
 
   undoButtonClasses() {
-    var game = this.state.game;
-    if (game.lastTileChanged) {
-      return "btn undo"
+    const { game } = this.state;
+    if (game.canUndo()) {
+      return "btn undo";
     } else {
-      return "btn disabled undo"
+      return "btn disabled undo";
     }
   },
 
   handleModalClose() {
-    this.setState({ modalShouldClose: true });
-  },
-
-  isGameWon() {
-    return this.state.game.won();
-  },
-
-  isGameTie() {
-    return this.state.game.tie();
+    this.setState({ gameWonModalOpen: false, gameTiedModalOpen: false });
   },
 
   render() {
-    const { boardSize, game } = this.state;
-    const action = [
+    const { 
+      boardSize, 
+      game, 
+      gameWonModalOpen, 
+      gameTiedModalOpen 
+    } = this.state;
+
+    const modalCloseButton = [
       <FlatButton
         label="Close"
         primary={true}
@@ -83,18 +89,16 @@ var Game = React.createClass({
       <div>
         <Dialog
           title="Congrats!"
-          actions={action}
-          modal={false}
-          open={this.isGameWon()}
+          actions={modalCloseButton}
+          open={gameWonModalOpen}
           onRequestClose={this.handleModalClose}
         >
           You Won!
         </Dialog>
         <Dialog
           title="It's a Tie!"
-          actions={action}
-          modal={false}
-          open={this.isGameTie()}
+          actions={modalCloseButton}
+          open={gameTiedModalOpen}
           onRequestClose={this.handleModalClose}
         >
           Play Again!
@@ -110,10 +114,17 @@ var Game = React.createClass({
             onChange={this.controlBoardSizeInput} 
           />
         </div>
-        <div>
-          <button className={this.undoButtonClasses()} onClick={this.undo}>Undo</button>
-          <div className="current-player"> Current Player is</div>
-        </div>
+        <span>
+          <button 
+            className={this.undoButtonClasses()} 
+            onClick={this.undo}
+          >
+            Undo
+          </button>
+          <div className="current-player">
+            Current Player is: {game.currentTeam()}
+          </div>
+        </span>
         
         <Board
           board={game.board}

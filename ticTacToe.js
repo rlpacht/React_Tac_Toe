@@ -21,6 +21,10 @@ class Game {
     }
   }
 
+  currentTeam() {
+    return this.currentPlayer.team;
+  }
+
   updateTile(tile) {
     if (tile.tileIsEmpty()) {
       tile.updateTile(this.currentPlayer);
@@ -50,6 +54,10 @@ class Game {
     const boardSize = this.board.boardSize;
     const numTiles = boardSize * boardSize;
     return this.numTurnsPlayed === numTiles;
+  }
+
+  canUndo() {
+    return this.lastTileChanged;
   }
 }
 
