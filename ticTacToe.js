@@ -26,15 +26,17 @@ class Game {
       tile.updateTile(this.currentPlayer);
       this.switchPlayer();
       this.numTurnsPlayed++;
+      this.lastTileChanged = tile;
     }
-    this.lastTileChanged = tile
+    
   }
 
   undo() {
-    if (this.lastTileChanged.tileIsEmpty() === false) {
+    if (!this.lastTileChanged.tileIsEmpty()) {
       this.lastTileChanged.tileState = null;
       this.switchPlayer();  
       this.lastTileChanged = null;
+      this.numTurnsPlayed--;
     } 
     
   }
@@ -45,7 +47,8 @@ class Game {
   }
 
   tie() {
-    var numTiles = this.board.boardSize * this.board.boardSize;
+    const boardSize = this.board.boardSize;
+    const numTiles = boardSize * boardSize;
     return this.numTurnsPlayed === numTiles;
   }
 }

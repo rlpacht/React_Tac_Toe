@@ -83,8 +83,9 @@
 	    var _state = this.state;
 	    var game = _state.game;
 	    var boardSize = _state.boardSize;
+	    var modalShouldClose = _state.modalShouldClose;
 	
-	    if (game.won() && this.state.modalShouldClose || game.tie() && this.state.modalShouldClose) {
+	    if (game.won() && modalShouldClose || game.tie() && modalShouldClose) {
 	      var newGame = new TicTacToe.Game(boardSize);
 	      this.setState({ game: newGame, modalShouldClose: false });
 	    }
@@ -115,16 +116,11 @@
 	  },
 	  handleModalClose: function handleModalClose() {
 	    this.setState({ modalShouldClose: true });
-	    return false;
-	    this.setState({ game: this.state.game });
 	  },
-	  shouldModalOpen: function shouldModalOpen() {
-	    // if (this.state.game.won()) {
-	    //   this.setState({modalShouldOpen: true})
-	    // }
+	  isGameWon: function isGameWon() {
 	    return this.state.game.won();
 	  },
-	  tie: function tie() {
+	  isGameTie: function isGameTie() {
 	    return this.state.game.tie();
 	  },
 	  render: function render() {
@@ -132,11 +128,9 @@
 	    var boardSize = _state2.boardSize;
 	    var game = _state2.game;
 	
-	    var lastPlayer = game.nonCurrentPlayer();
 	    var action = [React.createElement(_flatButton2.default, {
 	      label: 'Close',
 	      primary: true,
-	      keyboardFocused: true,
 	      onClick: this.handleModalClose
 	    })];
 	    return React.createElement(
@@ -148,7 +142,7 @@
 	          title: 'Congrats!',
 	          actions: action,
 	          modal: false,
-	          open: this.shouldModalOpen(),
+	          open: this.isGameWon(),
 	          onRequestClose: this.handleModalClose
 	        },
 	        'You Won!'
@@ -159,7 +153,7 @@
 	          title: 'It\'s a Tie!',
 	          actions: action,
 	          modal: false,
-	          open: this.tie(),
+	          open: this.isGameTie(),
 	          onRequestClose: this.handleModalClose
 	        },
 	        'Play Again!'
@@ -181,9 +175,18 @@
 	        })
 	      ),
 	      React.createElement(
-	        'button',
-	        { className: this.undoButtonClasses(), onClick: this.undo },
-	        'Undo'
+	        'div',
+	        null,
+	        React.createElement(
+	          'button',
+	          { className: this.undoButtonClasses(), onClick: this.undo },
+	          'Undo'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'current-player' },
+	          ' Current Player is'
+	        )
 	      ),
 	      React.createElement(Board, {
 	        board: game.board,
@@ -30684,16 +30687,17 @@
 	        tile.updateTile(this.currentPlayer);
 	        this.switchPlayer();
 	        this.numTurnsPlayed++;
+	        this.lastTileChanged = tile;
 	      }
-	      this.lastTileChanged = tile;
 	    }
 	  }, {
 	    key: "undo",
 	    value: function undo() {
-	      if (this.lastTileChanged.tileIsEmpty() === false) {
+	      if (!this.lastTileChanged.tileIsEmpty()) {
 	        this.lastTileChanged.tileState = null;
 	        this.switchPlayer();
 	        this.lastTileChanged = null;
+	        this.numTurnsPlayed--;
 	      }
 	    }
 	  }, {
@@ -30705,7 +30709,8 @@
 	  }, {
 	    key: "tie",
 	    value: function tie() {
-	      var numTiles = this.board.boardSize * this.board.boardSize;
+	      var boardSize = this.board.boardSize;
+	      var numTiles = boardSize * boardSize;
 	      return this.numTurnsPlayed === numTiles;
 	    }
 	  }]);

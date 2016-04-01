@@ -24,8 +24,8 @@ var Game = React.createClass({
   },
 
   componentDidUpdate() {
-    const { game, boardSize } = this.state;
-    if ((game.won() && this.state.modalShouldClose) || (game.tie() && this.state.modalShouldClose)) {
+    const { game, boardSize, modalShouldClose } = this.state;
+    if ((game.won() && modalShouldClose) || (game.tie() && modalShouldClose)) {
       const newGame = new TicTacToe.Game(boardSize);
       this.setState({ game: newGame, modalShouldClose: false });  
     }
@@ -60,29 +60,23 @@ var Game = React.createClass({
   },
 
   handleModalClose() {
-    this.setState({modalShouldClose: true});
-    return false;
-    this.setState({ game: this.state.game });
+    this.setState({ modalShouldClose: true });
   },
-  shouldModalOpen() {
-    // if (this.state.game.won()) {
-    //   this.setState({modalShouldOpen: true})
-    // }
+
+  isGameWon() {
     return this.state.game.won();
   },
 
-  tie() {
+  isGameTie() {
     return this.state.game.tie();
   },
 
   render() {
     const { boardSize, game } = this.state;
-    const lastPlayer = game.nonCurrentPlayer();
     const action = [
       <FlatButton
         label="Close"
         primary={true}
-        keyboardFocused={true}
         onClick={this.handleModalClose}
       />]
     return (
@@ -91,7 +85,7 @@ var Game = React.createClass({
           title="Congrats!"
           actions={action}
           modal={false}
-          open={this.shouldModalOpen()}
+          open={this.isGameWon()}
           onRequestClose={this.handleModalClose}
         >
           You Won!
@@ -100,7 +94,7 @@ var Game = React.createClass({
           title="It's a Tie!"
           actions={action}
           modal={false}
-          open={this.tie()}
+          open={this.isGameTie()}
           onRequestClose={this.handleModalClose}
         >
           Play Again!
@@ -116,7 +110,11 @@ var Game = React.createClass({
             onChange={this.controlBoardSizeInput} 
           />
         </div>
-        <button className={this.undoButtonClasses()} onClick={this.undo}>Undo</button>
+        <div>
+          <button className={this.undoButtonClasses()} onClick={this.undo}>Undo</button>
+          <div className="current-player"> Current Player is</div>
+        </div>
+        
         <Board
           board={game.board}
           updateGame={this.updateGame}

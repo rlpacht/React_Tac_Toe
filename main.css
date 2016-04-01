@@ -26,6 +26,10 @@ html {
   margin-left: 10%;
 }
 
+.current-player {
+  border: 3px solid teal;
+}
+
 .board {
   overflow: auto;
   white-space: nowrap;
