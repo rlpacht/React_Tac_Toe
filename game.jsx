@@ -105,7 +105,7 @@ const Game = React.createClass({
         </Dialog>
 
         <div className="board-size">
-          <h4> Choose Board Size </h4>
+          <h5> Choose Board Size </h5>
           <input 
             type="number" 
             className="board-size-input"

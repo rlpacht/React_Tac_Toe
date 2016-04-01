@@ -3,7 +3,7 @@ html {
 }
 .title {
   text-align: center;
-  font-size: 330%;
+  font-size: 300%;
   color: teal;
   margin: 0;
   margin-top: .5%; 
@@ -14,10 +14,7 @@ html {
   font-size: 120%;
 }
 .board-size-input {
-  font-size: 14px;
   text-align: center;
-  /*border-left: 1px solid #9e9e9e !important;
-  border-right: 1px solid #9e9e9e !important;*/
   border-top: 1px solid #9e9e9e !important;
   max-width: 35%;
 }
@@ -39,7 +36,7 @@ html {
   overflow: auto;
   white-space: nowrap;
   position: relative;
-  top: 30px;
+  /*top: 30px;*/
   margin: auto 0;
   text-align: center;
 }
