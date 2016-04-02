@@ -1,14 +1,15 @@
-# React_Tac_Toe
+# React Tac Toe
 
 ##Overview:
   Object Oriented Tic Tac Toe built in React.
 
 ## Technologies Used:
-  Reactjs, ES6, MaterializeCSS, and HTML/CSS
+  React.js, ES6, Webpack, Babel, Materialize.
   
 ## Features:
-  Users can play a game of tic tac toe on a board size of their choosing.
+  * Players can play a game of Tic Tac Toe on a board size of their choosing.
+  * Players can undo their last move.
   
 ##Future Features
-  Implement [Ultimate Tic Tac Toe](http://mathwithbaddrawings.com/ultimate-tic-tac-toe-original-post/)
+  * Implement [Ultimate Tic Tac Toe](http://mathwithbaddrawings.com/ultimate-tic-tac-toe-original-post/)
   where each top level tile contains a game of tic tac toe.
